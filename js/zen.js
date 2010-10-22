@@ -894,7 +894,16 @@ function generateForm(survey, node, action, method, buttonText){
 				}
 				
 				el = $$$(item.name+"["+(i-1)+"]");
-			} else {
+			}
+			// Search through dropdown options
+			else if( item.type == "dropdown"){
+				el = form[item.name];
+				value = $$$(item.name).options[0].selected;
+				value = !value;	
+				item.validate = function(o) {return o;};
+			}
+			
+			 else {
 				el = form[item.name];
 				value = el.value;
 			}
