@@ -792,6 +792,7 @@ function insertAfter( referenceNode, newNode )
 
 //survey and action are required, method is optional
 function generateForm(survey, node, action, method, buttonText){
+	var results = [];
 	var self = generateForm;
 	
 	function tag(kind, options) {
@@ -860,10 +861,10 @@ function generateForm(survey, node, action, method, buttonText){
 		
 	}
 	if(buttonText){
-		str = str + "<br /><button type='submit'>"+buttonText+"</button></form>";
+		str = str + "<br /><button type='submit'>"+buttonText+"</button>";
 	}
 	else{
-		str = str + "<br /><button type='submit'>Next</button></form>";
+		str = str + "<br /><button type='submit'>Next</button>";
 	}
 	node.innerHTML += str;
 	//return str;
@@ -928,11 +929,18 @@ function generateForm(survey, node, action, method, buttonText){
 				//console.log(id + " failed");
 			} else {
 				errorEl.innerHTML = "";
-				
+				var answer = $$$(item.name).value;
+				results.push({'question': item.name, 'answer': answer});	
 			}
 		});
+		$$$('data').value =JSON.stringify(results);
+		$$$('score').value = 0;
 		//console.log("validation passed: " + !error);
-		return finalCheck;
+		if(finalCheck){
+			$$$(formId).submit();
+		}
+		else{
+			return finalCheck;
+		}
 	}
-
 }
