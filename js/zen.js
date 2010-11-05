@@ -712,7 +712,7 @@ function disableDrag() {
 Questionnaire Template
 
 Example usage:
-generateForm(survey, node, action, method);
+generateForm(survey, node, action, method, buttonText);
 
 survey: an array of questions
 
@@ -792,7 +792,6 @@ function insertAfter( referenceNode, newNode )
 
 //survey and action are required, method is optional
 function generateForm(survey, node, action, method, buttonText){
-	var results = [];
 	var self = generateForm;
 	
 	function tag(kind, options) {
@@ -836,11 +835,18 @@ function generateForm(survey, node, action, method, buttonText){
 				b.options.map(function(o,i) {
 					var id = b.name + "[" + i + "]";
 					str += tag('label',{"for": id, content: o}) +
-					tag('input',{type: b.type, name: b.name, id: id, value: b.values[i], "class": "zen_"+b.type});
+					tag('input',{type: b.type, name: b.name, id: id, value: (typeof(b.values) !== 'undefined' ? b.values[i] : b.options[i]), "class": "zen_"+b.type});
 				});
 				
 				break;
 			case 'dropdown':
+				str += "<select id='"+b.name+"' name= '"+b.name+"'";
+				b.options.map(function(o,i) {
+					var id = b.name + "[" + i + "]";
+					str += tag('option',{type: b.type, content: o, id: id, value: (typeof(b.values) !== 'undefined' ? b.values[i] : b.options[i]), "class": "zen_"+b.type});
+				});
+				str+= "</select>";
+				/*
 				var options = b.options.reduce(
 					function(cumulative, value) {
 						var attributes = {value: value, content: value};
@@ -851,6 +857,7 @@ function generateForm(survey, node, action, method, buttonText){
 				, "");
 			
 				str += tag('select', {name: b.name, content: options, id: b.name});
+				*/
 				break;
 			case 'textarea':
 				str += tag('textarea', {name: b.name, rows: b.rows, cols: b.cols, id: b.name});
@@ -866,9 +873,12 @@ function generateForm(survey, node, action, method, buttonText){
 	else{
 		str = str + "<br /><button type='submit'>Next</button>";
 	}
+	str = str + "<input type='hidden' name='data' id='data' /><input type='hidden' name='score' id='score'/></form>";
 	node.innerHTML += str;
 	//return str;
 	$$$(formId).validate = function() {
+		var results = [];
+		var score = 0;
 		var finalCheck = true;
 		var error = false;
 		var form = this;
@@ -877,14 +887,20 @@ function generateForm(survey, node, action, method, buttonText){
 			
 			if (item.optional) return;
 			
-			var el, value;
+			var el, value, answer;
 			
 			// Search through checkbox/radio options
 			if (item.type == "checkbox" || item.type == "radio") {
 				value = [];
 				for(var i=0, len = item.options.length; i < len; i++) {
 					var option = $$$(item.name+"["+i+"]");
-					if (option.checked) value.push(option.value);
+					if (option.checked){
+						value.push(option.value);
+						if(item.values){
+							score += option.value*1;
+						}
+					}
+						
 				}
 				
 				if (item.type == "radio") {
@@ -893,20 +909,32 @@ function generateForm(survey, node, action, method, buttonText){
 				} else {
 					item.validate = function(o) { return o.length; }
 				}
-				
+				answer = value;
 				el = $$$(item.name+"["+(i-1)+"]");
 			}
 			// Search through dropdown options
 			else if( item.type == "dropdown"){
+				for(var i=0, len = item.options.length; i< len; i++){
+					var option = $$$(item.name+"["+i+"]");
+					if(option.selected){
+						//value = option.value*1;
+						answer = option.value;
+						if(item.values){
+							answer = option.value*1;
+							score+= option.value*1;
+						}
+					}
+				}
 				el = form[item.name];
 				value = $$$(item.name).options[0].selected;
 				value = !value;	
 				item.validate = function(o) {return o;};
 			}
 			
-			 else {
+			else {
 				el = form[item.name];
 				value = el.value;
+				answer = el.value;
 			}
 			
 			var errorEl = document.getElementById(id + ".err");
@@ -929,12 +957,12 @@ function generateForm(survey, node, action, method, buttonText){
 				//console.log(id + " failed");
 			} else {
 				errorEl.innerHTML = "";
-				var answer = $$$(item.name).value;
+				//var answer = $$$(item.name).value;
 				results.push({'question': item.name, 'answer': answer});	
 			}
 		});
 		$$$('data').value =JSON.stringify(results);
-		$$$('score').value = 0;
+		$$$('score').value = score;
 		//console.log("validation passed: " + !error);
 		if(finalCheck){
 			$$$(formId).submit();
