@@ -838,7 +838,7 @@ function generateForm(survey, node, action, method, buttonText){
 				str += tag('input', {type: "text", id: b.name});
 				break;
 			case 'text':
-				str += tag('input', {type: "text", maxlength: b.length, id: b.name});
+				str += tag('input', {type: "text", maxlength: b.length, id: b.name, size: b.length});
 				break;
 			case 'checkbox':
 			case 'radio':

@@ -36,3 +36,15 @@ button:active {
 	background: none;
 	background-color: #c9c9c9;
 }
+
+div.zen_likert span.zen_likert {
+	display:block;
+}
+
+div.zen_long span.zen_long {
+	display:block;
+}
+
+div.zen_yesno span.zen_yesno {
+	padding-right:5px;
+}
