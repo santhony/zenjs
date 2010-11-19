@@ -736,6 +736,8 @@ type(required): supports most html input types
 		requires options[] and values[]
 	dropdown: single item selection in a dropdown menu
 		requires options[] values[]
+		
+**subtype(optional): specifies a secondary class which will be assigned (prepended by zen_) to all divs and spans
 
 **options(required): the set of answers visible to the user
 
@@ -781,6 +783,14 @@ var survey= [
 	options: ["male","female"],
 	selected: "male",
 	optional: true
+},
+{
+	name: "tall",
+	question: "I am tall.",
+	type: "radio",
+	subtype: "likert",
+	options: ['Strongly Disagree', 'Somewhat Disagree', 'Neither', 'Somewhat Agree', 'Strongly ],
+	values: [-2, -1, 0, 1, 2]
 }
 ];
 */
@@ -820,7 +830,7 @@ function generateForm(survey, node, action, method, buttonText){
 	var str = "<form id='"+formId+"' action='"+action+"' method='"+method+"' onsubmit='return this.validate();'><ol>";
 	for(var a=0,b;b=survey[a];a++){
 		if(b.question!=''){
-			str += "<li><p><div class='zen_question'>" + b.question + "</div><div class='zen_input'>";		
+			str += "<li><p><div class='zen_question'>" + b.question + "</div><div class='zen_input" + (typeof(b.subtype) !== "undefined" ? " zen_" + b.subtype : "") + "'>";		
 		}
 		
 		switch(b.type) {
@@ -834,8 +844,11 @@ function generateForm(survey, node, action, method, buttonText){
 			case 'radio':
 				b.options.map(function(o,i) {
 					var id = b.name + "[" + i + "]";
-					str += tag('label',{"for": id, content: o}) +
-					tag('input',{type: b.type, name: b.name, id: id, value: (typeof(b.values) !== 'undefined' ? b.values[i] : b.options[i]), "class": "zen_"+b.type});
+					str +=  tag('span', { 
+								"class":(typeof(b.subtype) !== 'undefined' ? "zen_" + b.subtype : "zen_" + b.type), 
+					 			"content":  tag('input',{type: b.type, name: b.name, id: id, value: (typeof(b.values) !== 'undefined' ? b.values[i] : b.options[i]), "class": "zen_"+b.type}) + 
+											tag('label',{"for": id, content: o})
+									});
 				});
 				
 				break;
