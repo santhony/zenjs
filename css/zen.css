@@ -37,6 +37,11 @@ button:active {
 	background-color: #c9c9c9;
 }
 
+.zen_error {
+	display:inline;
+	color:#f00;
+}
+
 div.zen_likert span.zen_likert {
 	display:block;
 }

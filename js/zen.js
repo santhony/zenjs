@@ -830,7 +830,7 @@ function generateForm(survey, node, action, method, buttonText){
 	var str = "<form id='"+formId+"' action='"+action+"' method='"+method+"' onsubmit='return this.validate();'><ol>";
 	for(var a=0,b;b=survey[a];a++){
 		if(b.question!=''){
-			str += "<li><p><div class='zen_question'>" + b.question + "</div><div class='zen_input" + (typeof(b.subtype) !== "undefined" ? " zen_" + b.subtype : "") + "'>";		
+			str += "<li><p><div class='zen_question' id='zen_" + b.name + "_question'>" + b.question + "</div><div class='zen_input" + (typeof(b.subtype) !== "undefined" ? " zen_" + b.subtype : "") + "' id='zen_" + b.name + "_input'>";		
 		}
 		
 		switch(b.type) {
@@ -888,7 +888,7 @@ function generateForm(survey, node, action, method, buttonText){
 	}
 	str = str + "<input type='hidden' name='data' id='data' /><input type='hidden' name='score' id='score'/></form>";
 	node.innerHTML += str;
-	//return str;
+	
 	$$$(formId).validate = function() {
 		var results = [];
 		var score = 0;
@@ -924,6 +924,8 @@ function generateForm(survey, node, action, method, buttonText){
 				}
 				answer = value;
 				el = $$$(item.name+"["+(i-1)+"]");
+				console.log(el.name);
+				console.log(el.value);
 			}
 			// Search through dropdown options
 			else if( item.type == "dropdown"){
@@ -956,7 +958,7 @@ function generateForm(survey, node, action, method, buttonText){
 				errorEl = document.createElement("span");
 				errorEl.id = id + ".err";
 				errorEl.className = "zen_error";
-				insertAfter(el, errorEl);
+				insertAfter($$$('zen_' + id + '_input'), errorEl);
 			}
 			
 			
