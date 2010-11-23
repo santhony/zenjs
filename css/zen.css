@@ -42,6 +42,12 @@ button:active {
 	color:#f00;
 }
 
+.zen_err_flag {
+	display:block;
+	position:relative;
+	color:#f00;
+}
+
 div.zen_likert span.zen_likert {
 	display:block;
 }

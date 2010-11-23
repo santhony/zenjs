@@ -881,12 +881,12 @@ function generateForm(survey, node, action, method, buttonText){
 		
 	}
 	if(buttonText){
-		str = str + "<br /><button type='submit'>"+buttonText+"</button>";
+		str = str + "<br /><button type='submit' id='zen_submit'>"+buttonText+"</button>";
 	}
 	else{
-		str = str + "<br /><button type='submit'>Next</button>";
+		str = str + "<br /><button type='submit' id='zen_submit'>Next</button>";
 	}
-	str = str + "<input type='hidden' name='data' id='data' /><input type='hidden' name='score' id='score'/></form>";
+	str += "<input type='hidden' name='data' id='data' /><input type='hidden' name='score' id='score'/></form>";
 	node.innerHTML += str;
 	
 	$$$(formId).validate = function() {
@@ -907,7 +907,7 @@ function generateForm(survey, node, action, method, buttonText){
 				value = [];
 				for(var i=0, len = item.options.length; i < len; i++) {
 					var option = $$$(item.name+"["+i+"]");
-					if (option.checked){
+					if (option.checked) {
 						value.push(option.value);
 						if(item.values){
 							score += option.value*1;
@@ -952,7 +952,7 @@ function generateForm(survey, node, action, method, buttonText){
 				answer = el.value;
 			}
 			
-			var errorEl = document.getElementById(id + ".err");
+			var errorEl = $$$(id + ".err");
 			
 			if (!errorEl) {
 				errorEl = document.createElement("span");
@@ -976,6 +976,16 @@ function generateForm(survey, node, action, method, buttonText){
 				results.push({'question': item.name, 'answer': answer});	
 			}
 		});
+		
+		var errorTot = $$$(formId + ".err");
+		
+		if(!errorTot) {
+			errorTot = document.createElement("span");
+			errorTot.id = formId	 + ".err";
+			errorTot.className = "zen_err_flag";
+			insertAfter($$$('zen_submit'), errorTot);
+		}
+		
 		$$$('data').value =JSON.stringify(results);
 		$$$('score').value = score;
 		//console.log("validation passed: " + !error);
@@ -983,6 +993,7 @@ function generateForm(survey, node, action, method, buttonText){
 			$$$(formId).submit();
 		}
 		else{
+			errorTot.innerHTML = "There is a problem with your form submission.  Please check that you have filled out all required fields correctly.";
 			return finalCheck;
 		}
 	}
