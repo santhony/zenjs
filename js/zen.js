@@ -882,8 +882,8 @@ function generateForm(survey, node, action, method, buttonText){
 				break;
 			case 'hidden':
 				b.optional = true;
+				b.question = b.name;
 				str += tag('input', {type: b.type, name: b.name, id: b.name, "class": "zen_"+b.type});
-
 		}
 		
 		str += '</div></p></li>';
