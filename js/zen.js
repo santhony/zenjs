@@ -791,6 +791,11 @@ var survey= [
 	subtype: "likert",
 	options: ['Strongly Disagree', 'Somewhat Disagree', 'Neither', 'Somewhat Agree', 'Strongly ],
 	values: [-2, -1, 0, 1, 2]
+},
+{
+	name: "weight",
+	question: "",
+	type:"hidden"
 }
 ];
 */
@@ -874,6 +879,10 @@ function generateForm(survey, node, action, method, buttonText){
 				break;
 			case 'textarea':
 				str += tag('textarea', {name: b.name, rows: b.rows, cols: b.cols, id: b.name});
+				break;
+			case 'hidden':
+				b.optional = true;
+				str += tag('input', {type: b.type, name: b.name, id: b.name, "class": "zen_"+b.type});
 
 		}
 		
@@ -924,8 +933,6 @@ function generateForm(survey, node, action, method, buttonText){
 				}
 				answer = value;
 				el = $$$(item.name+"["+(i-1)+"]");
-				console.log(el.name);
-				console.log(el.value);
 			}
 			// Search through dropdown options
 			else if( item.type == "dropdown"){
