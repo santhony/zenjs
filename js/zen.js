@@ -907,7 +907,7 @@ function generateForm(survey, node, action, method, buttonText){
 		survey.map(function(item) {
 			var id = item.name;
 			
-			if (item.optional) return;
+			//if (item.optional) return;
 			
 			var el, value, answer;
 			
@@ -972,7 +972,7 @@ function generateForm(survey, node, action, method, buttonText){
 			var notBlank = function(val) { return !(val === ""); };
 			var validate = item.validate || notBlank;
 			
-			if (!validate(value)) {
+			if (!validate(value) && !item.optional) {
 				error = true;
 				finalCheck = false;
 				errorEl.innerHTML = "required";
@@ -980,7 +980,7 @@ function generateForm(survey, node, action, method, buttonText){
 			} else {
 				errorEl.innerHTML = "";
 				//var answer = $$$(item.name).value;
-				results.push({'question': item.name, 'answer': answer});	
+				if(notBlank(answer)) results.push({'question': item.name, 'answer': answer});	
 			}
 		});
 		
