@@ -907,7 +907,7 @@ function generateForm(survey, node, action, method, buttonText){
 		survey.map(function(item) {
 			var id = item.name;
 			
-			if (item.optional) return;
+			//if (item.optional) return;
 			
 			var el, value, answer;
 			
