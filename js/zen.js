@@ -959,27 +959,31 @@ function generateForm(survey, node, action, method, buttonText){
 				answer = el.value;
 			}
 			
-			var errorEl = $$$(id + ".err");
+			if(!item.optional) {
+				var errorEl = $$$(id + ".err");
 			
-			if (!errorEl) {
-				errorEl = document.createElement("span");
-				errorEl.id = id + ".err";
-				errorEl.className = "zen_error";
-				insertAfter($$$('zen_' + id + '_input'), errorEl);
-			}
+				if (!errorEl) {
+					errorEl = document.createElement("span");
+					errorEl.id = id + ".err";
+					errorEl.className = "zen_error";
+					insertAfter($$$('zen_' + id + '_input'), errorEl);
+				}
 			
 			
-			var notBlank = function(val) { return !(val === ""); };
-			var validate = item.validate || notBlank;
+				var notBlank = function(val) { return !(val === ""); };
+				var validate = item.validate || notBlank;
 			
-			if (!validate(value) && !item.optional) {
-				error = true;
-				finalCheck = false;
-				errorEl.innerHTML = "required";
-				//console.log(id + " failed");
+				if (!validate(value)) {
+					error = true;
+					finalCheck = false;
+					errorEl.innerHTML = "required";
+					//console.log(id + " failed");
+				} else {
+					errorEl.innerHTML = "";
+					//var answer = $$$(item.name).value;
+					results.push({'question': item.name, 'answer': answer});	
+				}
 			} else {
-				errorEl.innerHTML = "";
-				//var answer = $$$(item.name).value;
 				results.push({'question': item.name, 'answer': answer});	
 			}
 		});
