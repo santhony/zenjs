@@ -980,7 +980,7 @@ function generateForm(survey, node, action, method, buttonText){
 			} else {
 				errorEl.innerHTML = "";
 				//var answer = $$$(item.name).value;
-				if(notBlank(answer)) results.push({'question': item.name, 'answer': answer});	
+				results.push({'question': item.name, 'answer': answer});	
 			}
 		});
 		
