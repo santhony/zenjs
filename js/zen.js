@@ -832,7 +832,11 @@ function generateForm(survey, node, action, method, buttonText){
 	
 	var formId = "__form" + (self.numForms - 1);
 	method == undefined ? method = 'POST' : method = method;
-	var str = "<form id='"+formId+"' action='"+action+"' method='"+method+"' onsubmit='return this.validate();'><ol>";
+	onsubmit = "alert('blart');";
+	// this.validate was breaking in firefox so I moved things down to an onclick with the submit button.  probably not
+	// the right way to do it, but it was a somewhat urgent issue.  we should fix this.
+	//var str = "<form id='"+formId+"' action='"+action+"' method='"+method+"' onsubmit='return this.validate();'><ol>";
+	var str = "<form id='"+formId+"' action='"+action+"' method='"+method+"'><ol>";
 	for(var a=0,b;b=survey[a];a++){
 		if(b.question!=''){
 			str += "<li><p><div class='zen_question' id='zen_" + b.name + "_question'>" + b.question + "</div><div class='zen_input" + (typeof(b.subtype) !== "undefined" ? " zen_" + b.subtype : "") + "' id='zen_" + b.name + "_input'>";		
@@ -889,11 +893,15 @@ function generateForm(survey, node, action, method, buttonText){
 		str += '</div></p></li>';
 		
 	}
+	// moved the validation-triggering code down here to address a firefox compatibility issue with the 'this.validate' reference.
+	// this is pretty hacky and should be fixed the right way at some point.
 	if(buttonText){
-		str = str + "<br /><button type='submit' id='zen_submit'>"+buttonText+"</button>";
+		//str = str + "<br /><button type='submit' id='zen_submit'>"+buttonText+"</button>";
+		str = str + "<br /><button type='button' id='zen_submit' onclick='document.forms." + formId + ".validate();'>"+buttonText+"</button>";
 	}
 	else{
-		str = str + "<br /><button type='submit' id='zen_submit'>Next</button>";
+		//str = str + "<br /><button type='submit' id='zen_submit'>Next</button>";
+		str = str + "<br /><button type='button' id='zen_submit' onclick='document.forms." + formId + ".validate();'>Next</button>";
 	}
 	str += "<input type='hidden' name='data' id='data' /><input type='hidden' name='score' id='score'/></form>";
 	node.innerHTML += str;
@@ -903,7 +911,7 @@ function generateForm(survey, node, action, method, buttonText){
 		var score = 0;
 		var finalCheck = true;
 		var error = false;
-		var form = this;
+		var form = $$$(formId);
 		survey.map(function(item) {
 			var id = item.name;
 			
@@ -952,12 +960,14 @@ function generateForm(survey, node, action, method, buttonText){
 				value = !value;	
 				item.validate = function(o) {return o;};
 			}
-			
+	
 			else {
-				el = form[item.name];
+				// deeply hacky.  We really need to solve this forthwith.
+				el = form[item.name] ? form[item.name] : $$$(item.name);
 				value = el.value;
 				answer = el.value;
 			}
+			
 			
 			if(!item.optional) {
 				var errorEl = $$$(id + ".err");
@@ -977,16 +987,16 @@ function generateForm(survey, node, action, method, buttonText){
 					error = true;
 					finalCheck = false;
 					errorEl.innerHTML = "required";
-					//console.log(id + " failed");
 				} else {
 					errorEl.innerHTML = "";
-					//var answer = $$$(item.name).value;
 					results.push({'question': item.name, 'answer': answer});	
 				}
 			} else {
 				results.push({'question': item.name, 'answer': answer});	
 			}
 		});
+		
+
 		
 		var errorTot = $$$(formId + ".err");
 		
@@ -997,9 +1007,10 @@ function generateForm(survey, node, action, method, buttonText){
 			insertAfter($$$('zen_submit'), errorTot);
 		}
 		
+
+		
 		$$$('data').value =JSON.stringify(results);
 		$$$('score').value = score;
-		//console.log("validation passed: " + !error);
 		if(finalCheck){
 			$$$(formId).submit();
 		}
