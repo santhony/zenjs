@@ -989,10 +989,16 @@ function generateForm(survey, node, action, method, buttonText){
 					errorEl.innerHTML = "required";
 				} else {
 					errorEl.innerHTML = "";
-					results.push({ eval(item.name) : answer});	
+					ans = [];
+					ans[item.name] = answer;
+					results.push(ans);
+					//results.push({ eval(item.name) : answer});	
 				}
 			} else {
-				results.push({ eval(item.name) : answer});	
+				ans = [];
+				ans[item.name] = answer;
+				results.push(ans);
+				//results.push({ eval(item.name) : answer});	
 			}
 		});
 		
