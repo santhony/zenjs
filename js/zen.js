@@ -989,10 +989,12 @@ function generateForm(survey, node, action, method, buttonText){
 					errorEl.innerHTML = "required";
 				} else {
 					errorEl.innerHTML = "";
-					results.push({ "q_" + item.name : answer});	
+					question = "" + item.name;
+					results.push({ question : answer});	
 				}
 			} else {
-				results.push({ "q_" + item.name : answer});	
+				question = "" + item.name;
+				results.push({ question : answer});	
 			}
 		});
 		
