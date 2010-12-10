@@ -990,7 +990,7 @@ function generateForm(survey, node, action, method, buttonText){
 				} else {
 					errorEl.innerHTML = "";
 					ans = new Object();
-					eval( "ans." + item.name + "= answer");
+					eval( "ans.zen_" + item.name + "= answer");
 					results.push(ans);
 					//results.push({ eval(item.name) : answer});	
 				}
