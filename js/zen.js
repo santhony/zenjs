@@ -1016,7 +1016,7 @@ function generateForm(survey, node, action, method, buttonText){
 
 		
 		$$$('data').value =JSON.stringify(results);
-		$$$('score').value = score;
+		$$$('score').value = isNaN(score) ? 0 : score;
 		if(finalCheck){
 			$$$(formId).submit();
 		}
