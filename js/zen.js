@@ -882,7 +882,7 @@ function generateForm(survey, node, action, method, buttonText){
 				*/
 				break;
 			case 'textarea':
-				str += tag('textarea', {name: b.name, rows: b.rows, cols: b.cols, id: b.name});
+				str += tag('textarea', {name: b.name, rows: b.rows, cols: b.cols, id: b.name, "class": (typeof(b.subtype) !== "undefined" ? " zen_" + b.subtype : "")});
 				break;
 			case 'hidden':
 				b.optional = true;
@@ -962,6 +962,7 @@ function generateForm(survey, node, action, method, buttonText){
 			}
 	
 			else {
+				value = [];
 				// deeply hacky.  We really need to solve this forthwith.
 				el = form[item.name] ? form[item.name] : $$$(item.name);
 				value = el.value;
@@ -1001,9 +1002,7 @@ function generateForm(survey, node, action, method, buttonText){
 				//results.push({ eval(item.name) : answer});	
 			}
 		});
-		
-
-		
+				
 		var errorTot = $$$(formId + ".err");
 		
 		if(!errorTot) {
