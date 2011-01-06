@@ -513,7 +513,7 @@ function getKeyboardInput(acceptedKeys, fun, state, duration) {
 	var startTime = new Date();
 	
 	// monitor for keypresses
-	document.onkeydown = function(e) {
+	document.onkeyup = function(e) {
 		var e = e || window.event;
 		
 		var v = e.charCode || e.keyCode;
