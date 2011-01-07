@@ -990,13 +990,13 @@ function generateForm(survey, node, action, method, buttonText){
 					errorEl.innerHTML = "required";
 				} else {
 					errorEl.innerHTML = "";
-					ans = new Object();
+					var ans = new Object();
 					eval( "ans.zen_" + item.name + "= answer");
 					results.push(ans);
 					//results.push({ eval(item.name) : answer});	
 				}
 			} else {
-				ans = new Object();
+				var ans = new Object();
 				eval( "ans.zen_" + item.name + "= answer");
 				results.push(ans);
 				//results.push({ eval(item.name) : answer});	
@@ -1011,8 +1011,6 @@ function generateForm(survey, node, action, method, buttonText){
 			errorTot.className = "zen_err_flag";
 			insertAfter($$$('zen_submit'), errorTot);
 		}
-		
-
 		
 		$$$('data').value =JSON.stringify(results);
 		$$$('score').value = isNaN(score) ? 0 : score;
