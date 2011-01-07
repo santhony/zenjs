@@ -849,6 +849,11 @@ function generateForm(survey, node, action, method, buttonText){
 			case 'text':
 				str += tag('input', {type: "text", maxlength: b.length, id: b.name, size: b.length});
 				break;
+			case 'hidden':
+				b.optional = true;
+				b.question = b.name;
+				str += tag('input', {type: "hidden", id: b.name});
+				break;
 			case 'checkbox':
 			case 'radio':
 				b.options.map(function(o,i) {
@@ -883,11 +888,6 @@ function generateForm(survey, node, action, method, buttonText){
 				break;
 			case 'textarea':
 				str += tag('textarea', {name: b.name, rows: b.rows, cols: b.cols, id: b.name, "class": (typeof(b.subtype) !== "undefined" ? " zen_" + b.subtype : "")});
-				break;
-			case 'hidden':
-				b.optional = true;
-				b.question = b.name;
-				str += tag('input', {type: "hidden", name: b.name, id: b.name});
 				break;
 		}
 		
