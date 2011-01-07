@@ -887,7 +887,7 @@ function generateForm(survey, node, action, method, buttonText){
 			case 'hidden':
 				b.optional = true;
 				b.question = b.name;
-				str += tag('input', {type: b.type, name: b.name, id: b.name});
+				str += tag('input', {type: "hidden", name: b.name, id: b.name});
 				break;
 		}
 		
