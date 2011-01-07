@@ -887,7 +887,8 @@ function generateForm(survey, node, action, method, buttonText){
 			case 'hidden':
 				b.optional = true;
 				b.question = b.name;
-				str += tag('input', {type: b.type, name: b.name, id: b.name, "class": "zen_"+b.type});
+				str += tag('input', {type: b.type, name: b.name, id: b.name});
+				break;
 		}
 		
 		str += '</div></p></li>';
@@ -960,7 +961,6 @@ function generateForm(survey, node, action, method, buttonText){
 				value = !value;	
 				item.validate = function(o) {return o;};
 			}
-	
 			else {
 				value = [];
 				// deeply hacky.  We really need to solve this forthwith.
