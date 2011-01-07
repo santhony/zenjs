@@ -839,8 +839,8 @@ function generateForm(survey, node, action, method, buttonText){
 	var str = "<form id='"+formId+"' action='"+action+"' method='"+method+"'><ol>";
 	for(var a=0,b;b=survey[a];a++){
 		if(b.question!=''){
-			str += b.type != "hidden" ? "<li>" : "";
-			str += "<li><p><div class='zen_question zen_" + b.type + "' id='zen_" + b.name + "_question'>" + b.question + "</div><div class='zen_input zen_" + b.type + (typeof(b.subtype) !== "undefined" ? " zen_" + b.subtype : "") + "' id='zen_" + b.name + "_input'>";		
+			str += (b.type != "hidden" ? "<li>" : "");
+			str += "<p><div class='zen_question zen_" + b.type + "' id='zen_" + b.name + "_question'>" + b.question + "</div><div class='zen_input zen_" + b.type + (typeof(b.subtype) !== "undefined" ? " zen_" + b.subtype : "") + "' id='zen_" + b.name + "_input'>";		
 		}
 		
 		switch(b.type) {
@@ -892,8 +892,8 @@ function generateForm(survey, node, action, method, buttonText){
 				break;
 		}
 		
-		str += '</div></p>'
-		str += b.type != 'zen_hidden' ? '</li>' : "";
+		str += '</div></p>';
+		str += (b.type != 'hidden' ? '</li>' : "");
 		
 	}
 	// moved the validation-triggering code down here to address a firefox compatibility issue with the 'this.validate' reference.
