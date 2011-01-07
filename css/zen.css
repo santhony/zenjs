@@ -48,6 +48,10 @@ button:active {
 	color:#f00;
 }
 
+.zen_hidden {
+	display:none;
+}
+
 div.zen_likert span.zen_likert {
 	display:block;
 }

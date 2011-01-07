@@ -839,7 +839,7 @@ function generateForm(survey, node, action, method, buttonText){
 	var str = "<form id='"+formId+"' action='"+action+"' method='"+method+"'><ol>";
 	for(var a=0,b;b=survey[a];a++){
 		if(b.question!=''){
-			str += "<li><p><div class='zen_question' id='zen_" + b.name + "_question'>" + b.question + "</div><div class='zen_input" + (typeof(b.subtype) !== "undefined" ? " zen_" + b.subtype : "") + "' id='zen_" + b.name + "_input'>";		
+			str += "<li><p><div class='zen_question zen_" + b.type + "' id='zen_" + b.name + "_question'>" + b.question + "</div><div class='zen_input zen_" + b.type + (typeof(b.subtype) !== "undefined" ? " zen_" + b.subtype : "") + "' id='zen_" + b.name + "_input'>";		
 		}
 		
 		switch(b.type) {
