@@ -509,7 +509,7 @@ function centimetersToDegrees(centimeters, viewingDistance) {
 function getKeyboardInput(acceptedKeys, fun, state, duration) {
 	if (!(acceptedKeys instanceof Array || acceptedKeys === "any")) throw new TypeError();
 	
-	if (duration) setTimeout(function() {document.onkeydown = null;}, duration);
+	if (duration) setTimeout(function() {document.onkeyup = null;}, duration);
 	var startTime = new Date();
 	
 	// monitor for keypresses
