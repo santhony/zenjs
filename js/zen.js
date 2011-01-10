@@ -584,7 +584,7 @@ function keyValue(code) {
 }
 
 function disableKeyboard() {
-	document.onkeydown = null;
+	document.onkeyup = null;
 }
 
 zen.timeouts = [];
