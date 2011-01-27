@@ -868,7 +868,7 @@ function generateForm(survey, node, action, method, buttonText){
 				
 				break;
 			case 'dropdown':
-				str += "<select id='"+b.name+"' name= '"+b.name+"'";
+				str += "<select id='"+b.name+"' name= '"+b.name+"'>";
 				b.options.map(function(o,i) {
 					var id = b.name + "[" + i + "]";
 					str += tag('option',{type: b.type, content: o, id: id, value: (typeof(b.values) !== 'undefined' ? b.values[i] : b.options[i]), "class": "zen_"+b.type});
