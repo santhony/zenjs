@@ -793,6 +793,10 @@ var survey= [
 	values: [-2, -1, 0, 1, 2]
 },
 {
+	name:"info",
+	text:"make sure to point out that you're tall, above"
+},
+{
 	name: "weight",
 	question: "",
 	type:"hidden"
