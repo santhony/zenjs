@@ -842,10 +842,10 @@ function generateForm(survey, node, action, method, buttonText){
 	//var str = "<form id='"+formId+"' action='"+action+"' method='"+method+"' onsubmit='return this.validate();'><ol>";
 	var str = "<form id='"+formId+"' action='"+action+"' method='"+method+"'><ol>";
 	for(var a=0,b;b=survey[a];a++){
-		if(b.type == "text") {
+		/*if(b.type == "text") {
 			str += "<div class='zen_" + b.type + "' id='zen_" + b.name + ">" + b.text + "</div>";
 			continue; 
-		}
+		}*/
 		
 		if(b.question!=''){
 			str += (b.type != "hidden" ? "<li>" : "");
@@ -981,7 +981,7 @@ function generateForm(survey, node, action, method, buttonText){
 			}
 			
 			
-			if(!item.optional && !item.text) {
+			if(!item.optional /*&& !item.text*/) {
 				var errorEl = $$$(id + ".err");
 			
 				if (!errorEl) {
