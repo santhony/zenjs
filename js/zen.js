@@ -635,7 +635,7 @@ function preload(images, callback) {
 		status.className = "slide";
 		status.id="_preload";
 		status.style.textAlign = "center";
-		status.innerHTML = "<div style='padding-top: 25px;position:fixed;'>Loading " +
+		status.innerHTML = "<div style='padding-top: 25px;'>Loading " +
 			"resources: <span id='_preload_indicator'>0</span> / " +
 			images.length + "";
 		
