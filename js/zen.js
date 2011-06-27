@@ -880,7 +880,14 @@ function generateForm(survey, node, action, method, buttonText){
 				str += "<select id='"+b.name+"' name= '"+b.name+"'>";
 				b.options.map(function(o,i) {
 					var id = b.name + "[" + i + "]";
-					str += tag('option',{type: b.type, content: o, id: id, value: (typeof(b.values) !== 'undefined' ? b.values[i] : b.options[i]), "class": "zen_"+b.type});
+					str += tag('option',{
+									type: b.type, 
+									content: o, 
+									id: id, 
+									value: (typeof(b.values) !== 'undefined' ? b.values[i] : b.options[i]), 
+									"class": "zen_"+b.type
+								});
+					str = str.substring(0,str.lastIndexOf('"') + 1) + (b.selected == b.options[i] ? " selected='selected' " : " ") + str.substring(str.lastIndexOf('"') + 1);
 				});
 				str+= "</select>";
 				/*
