@@ -842,7 +842,8 @@ function generateForm(survey, node, action, method, buttonText){
 	//var str = "<form id='"+formId+"' action='"+action+"' method='"+method+"' onsubmit='return this.validate();'><ol>";
 	var str = "<form id='"+formId+"' action='"+action+"' method='"+method+"'><ol>";
 	for(var a=0,b;b=survey[a];a++){
-		if(b.type == "text") {
+		if(b.type == "textdiv") {
+			b.optional = true;
 			str += tag('div', {id: b.name, size: b.length, content: b.content, "class":'zen_infoblock'});
 			continue;
 		}
